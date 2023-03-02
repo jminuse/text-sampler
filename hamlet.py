@@ -48,7 +48,8 @@ print(f'{seed=}, {input_N=}')
 np.random.seed(seed)
 all_outputs = np.random.choice(inputs_by_ind).split(' ')
 # print(all_outputs)
-for step in range(1000):
+sample_N = 200
+for step in range(sample_N):
     input_context = ' '.join(all_outputs[-input_N:])
     # print(input_context)
     if np.random.random() < 0.5:  # choose by probability
@@ -58,8 +59,14 @@ for step in range(1000):
     p /= p.sum()
     new_output = np.random.choice(outputs_by_ind, p=p)
     all_outputs.append(new_output)
+for i, word in enumerate(all_outputs):
+    if word == word.upper():  # all-uppercase indicates speaker directions
+        all_outputs[i] = '\n' + word  # add line breaks
+# also add line breaks at the end of sentences
 text_out = ' '.join(all_outputs).replace('. ', '.\n').replace('! ', '!\n')
+print('=' * 40)
 print(text_out)
+print('=' * 40)
 
 '''
 Fun examples:
